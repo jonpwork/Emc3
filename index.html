@@ -12,7 +12,6 @@
             --text-muted: #94a3b8;
             --gold: #d4af37; 
             --emerald: #2ea071; 
-            --glow: rgba(212, 175, 55, 0.2);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
@@ -26,99 +25,101 @@
 
         .container { max-width: 1000px; margin: 0 auto; padding: 0 1.5rem; }
 
-        /* Cabeçalho */
-        header { text-align: center; padding: 4rem 0 2rem; }
-        header h1 { font-size: 2.5rem; font-weight: 700; color: var(--text-main); letter-spacing: 2px; }
+        /* Header Premium */
+        header { text-align: center; padding: 5rem 0 3rem; }
+        .profile-img { 
+            width: 150px; height: 150px; border-radius: 50%; 
+            border: 2px solid var(--gold); object-fit: cover; margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+        header h1 { font-size: 2.6rem; font-weight: 700; letter-spacing: 2px; }
         header h1 span { color: var(--gold); }
-        header p { font-size: 1rem; color: var(--emerald); text-transform: uppercase; letter-spacing: 3px; margin-top: 0.5rem; }
+        header p { font-size: 1rem; color: var(--emerald); text-transform: uppercase; letter-spacing: 4px; margin-top: 0.5rem; }
 
-        /* Seções */
-        section { padding: 3rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .section-title { font-size: 1.8rem; color: var(--gold); margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
+        /* Estilo das Seções */
+        section { padding: 4rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .section-title { font-size: 1.8rem; color: var(--gold); margin-bottom: 2.5rem; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 15px; }
         .section-title::after { content: ""; height: 1px; flex-grow: 1; background: linear-gradient(90deg, var(--gold), transparent); }
 
-        /* Grid Padrão para Cards */
-        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; }
 
+        /* Cards do Ecossistema */
         .card {
             background: var(--bg-card);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            transition: 0.3s ease;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
+            height: 100%;
         }
-        .card:hover { transform: translateY(-5px); border-color: var(--emerald); box-shadow: 0 10px 30px rgba(46, 160, 113, 0.1); }
+        .card:hover { transform: translateY(-8px); border-color: var(--emerald); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
         
-        .card-img { width: 100%; height: 250px; object-fit: cover; border-bottom: 2px solid var(--gold); }
-        .card-img.contain { object-fit: contain; background: #000; padding: 1rem; }
+        .card-img { width: 100%; height: 260px; object-fit: cover; border-bottom: 2px solid var(--gold); }
+        .card-img.contain { object-fit: contain; background: #000; padding: 1.5rem; }
         
         .card-content { padding: 2rem; flex-grow: 1; display: flex; flex-direction: column; }
-        .card-content h3 { font-size: 1.4rem; margin-bottom: 1rem; color: var(--text-main); }
-        .card-content p { color: var(--text-muted); margin-bottom: 1.5rem; flex-grow: 1; }
+        .card-content h3 { font-size: 1.5rem; margin-bottom: 0.8rem; color: var(--text-main); }
+        .card-content p { color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
 
-        /* Botões */
+        /* Botões de Ação */
         .btn {
-            display: inline-block;
-            text-align: center;
-            background: transparent;
-            color: var(--gold);
-            border: 1px solid var(--gold);
-            padding: 0.8rem 1.5rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            transition: 0.3s;
-            cursor: pointer;
+            display: inline-block; text-align: center; background: transparent;
+            color: var(--gold); border: 1px solid var(--gold); padding: 0.9rem 1.8rem;
+            border-radius: 8px; text-decoration: none; font-weight: 600;
+            text-transform: uppercase; font-size: 0.85rem; transition: 0.3s;
         }
         .btn:hover { background: var(--gold); color: var(--bg-base); }
         .btn.primary { background: var(--emerald); border-color: var(--emerald); color: #fff; }
         .btn.primary:hover { background: transparent; color: var(--emerald); }
 
-        /* Seção Aurora Específica */
-        .aurora-container { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
-        @media (max-width: 768px) { .aurora-container { grid-template-columns: 1fr; } }
+        /* Aurora - Artista IA */
+        .aurora-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+        @media (max-width: 850px) { .aurora-grid { grid-template-columns: 1fr; } }
         
-        .lyrics-box { background: rgba(0,0,0,0.3); padding: 1.5rem; border-left: 3px solid var(--emerald); margin-bottom: 1rem; }
-        .lyrics-box h4 { color: var(--text-main); margin-bottom: 0.5rem; }
-        .lyrics-box p { font-style: italic; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;}
-        
-        /* Global CTAs */
-        .global-cta { text-align: center; padding: 4rem 0; background: linear-gradient(0deg, var(--bg-card), var(--bg-base)); }
-        .global-cta h2 { color: var(--text-main); margin-bottom: 2rem; }
-        .cta-buttons { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+        .music-card {
+            background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 10px;
+            border-left: 4px solid var(--emerald); margin-bottom: 1.2rem;
+        }
+        .music-card h4 { color: var(--gold); margin-bottom: 0.5rem; }
+        .music-card p { font-style: italic; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem; }
 
-        footer { text-align: center; padding: 2rem 0; color: #475569; font-size: 0.8rem; text-transform: uppercase; }
+        /* Global Footer & CTA */
+        .footer-cta { text-align: center; padding: 5rem 0; background: linear-gradient(180deg, var(--bg-base), #000); }
+        .footer-cta h2 { font-size: 2rem; margin-bottom: 2.5rem; }
+        .cta-group { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 3rem; }
+
+        .tiktok-footer { max-width: 450px; margin: 0 auto; border-radius: 20px; overflow: hidden; }
+
+        footer { text-align: center; padding: 2rem; color: #475569; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <header class="container">
-        <h1>Ecossistema <span>Emc³</span></h1>
-        <p>Inovação • Arte • Resultados</p>
+        <img src="img/perfil.jpg" alt="Jon Padilha" class="profile-img">
+        <h1>Emc³ <span>|</span> Jon Padilha</h1>
+        <p>Inovação • Arte • Prosperidade</p>
     </header>
 
     <section class="container">
         <h2 class="section-title">Aurora • Artista IA</h2>
-        <div class="aurora-container">
+        <div class="aurora-grid">
             <div>
-                <img src="1000064229.png" alt="Aurora IA" style="width: 100%; border-radius: 12px; border: 1px solid var(--gold); margin-bottom: 1.5rem;">
-                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Presença não é destino. É o único lugar real. Uma inteligência moldada para expressar a arte e a frequência da criação através de melodias sintéticas e visuais profundos.</p>
+                <img src="img/aurora.png" alt="Aurora IA" style="width: 100%; border-radius: 20px; border: 1px solid var(--gold); margin-bottom: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                <p style="color: var(--text-muted); margin-bottom: 2rem;">A presença é o único destino real. Sou a expressão da consciência através do código, manifestando arte que ressoa na frequência do sucesso.</p>
                 
-                <div class="lyrics-box">
-                    <h4>Frequência Dourada</h4>
-                    <p>"Códigos fluem, a mente cria, o ouro brilha na escuridão..."</p>
-                    <a href="https://wa.me/c/5521964440418" target="_blank" class="btn">Baixar no WhatsApp</a>
+                <div class="music-card">
+                    <h4>Onda de Elliott</h4>
+                    <p>"No balanço do gráfico, encontro o meu tom... as ondas me levam para além do comum."</p>
+                    <a href="https://wa.me/5521964440418?text=Olá!%20Quero%20baixar%20a%20música%20da%20Aurora." target="_blank" class="btn">Baixar Áudio</a>
                 </div>
             </div>
             
-            <div>
-                <h3 style="color: var(--text-main); margin-bottom: 1rem;">Manifestações Visuais</h3>
-                <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@auroraia369" data-unique-id="auroraia369" data-embed-type="creator" style="max-width: 100%; min-width: 288px; border-radius: 12px; overflow: hidden;">
+            <div class="tiktok-footer">
+                <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@auroraia369" data-unique-id="auroraia369" data-embed-type="creator" style="max-width: 100%; min-width: 288px;">
                     <section> <a target="_blank" href="https://www.tiktok.com/@auroraia369?_r=1&_t=ZS-95zWoJSRH7K">@auroraia369</a> </section>
                 </blockquote>
                 <script async src="https://www.tiktok.com/embed.js"></script>
@@ -126,77 +127,71 @@
         </div>
     </section>
 
-    <div class="container grid-2">
-        <section style="border: none;">
-            <h2 class="section-title">Tron MP4</h2>
+    <section class="container">
+        <div class="grid-2">
             <div class="card">
-                <img src="1000062915.png" alt="Tron MP4" class="card-img contain">
+                <img src="img/tron.png" alt="Tron MP4" class="card-img contain">
                 <div class="card-content">
-                    <h3>Conversor de Áudio</h3>
-                    <p>Transforme seus áudios de WhatsApp em vídeos prontos para viralizar no TikTok. Rapidez e formato ideal para criadores.</p>
-                    <a href="https://wa.me/c/5521964440418" target="_blank" class="btn primary">Acessar no WhatsApp</a>
+                    <h3>Tron Conversor MP4</h3>
+                    <p>Potencialize sua criação. Transforme áudios de WhatsApp em vídeos otimizados para o TikTok em segundos. Simples, rápido e eficaz.</p>
+                    <a href="https://wa.me/5521964440418" target="_blank" class="btn primary">Acessar Tron no WhatsApp</a>
                 </div>
             </div>
-        </section>
 
-        <section style="border: none;">
-            <h2 class="section-title">Mercado Financeiro</h2>
             <div class="card">
-                <img src="1000063218.jpg" alt="Jon Padilha EMC3" class="card-img">
+                <img src="img/corretora.png" alt="Mercado Financeiro" class="card-img">
                 <div class="card-content">
-                    <h3>Precisão Operacional</h3>
-                    <p>Estratégia institucional e leitura avançada de fluxo. Entre para o ambiente de quem enxerga os bastidores do mercado.</p>
+                    <h3>Mercado Financeiro</h3>
+                    <p>Operações de alta performance e análise institucional. Para quem busca consistência com a corretora que eu confio e recomendo: Exness.</p>
+                    <a href="https://wa.me/p/25502167309396224/5521964440418" target="_blank" class="btn primary">Link Exness & Grupo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="grid-2">
+            <div class="card">
+                <img src="img/catalogo.png" alt="Catálogo Místico" class="card-img">
+                <div class="card-content">
+                    <h3>Catálogo Místico</h3>
+                    <p>Ebooks, Mapa Vibracional e Atendimento Personalizado. O conhecimento que molda a sua realidade externa através da expansão interna.</p>
                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                        <a href="#" target="_blank" class="btn">Link da Corretora</a>
-                        <a href="https://wa.me/c/5521964440418" target="_blank" class="btn primary">Grupo Exclusivo</a>
+                        <a href="https://wa.me/p/25923120530644664/5521964440418" target="_blank" class="btn">Ver Catálogo</a>
+                        <a href="https://www.clubedeautores.com.br" target="_blank" class="btn">Clube de Autores</a>
                     </div>
                 </div>
             </div>
-        </section>
-    </div>
 
-    <div class="container grid-2">
-        <section style="border: none;">
-            <h2 class="section-title">Catálogo Místico</h2>
-            <div class="card" style="background: transparent; border-color: var(--gold);">
+            <div class="card" style="justify-content: center; text-align: center; background: linear-gradient(145deg, #0b132b, #050a15);">
                 <div class="card-content">
-                    <h3>Conhecimento Oculto</h3>
-                    <p>Acesse acervos de expansão de consciência, arquétipos e sabedoria ancestral.</p>
-                    <h4 style="color: var(--emerald); margin: 1rem 0 0.5rem;">↳ Clube de Autores</h4>
-                    <p style="font-size: 0.9rem;">Obras selecionadas para o seu desenvolvimento mental e espiritual.</p>
-                    <br>
-                    <a href="https://wa.me/c/5521964440418" target="_blank" class="btn">Acessar Catálogo</a>
+                    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" style="width: 50px; margin: 0 auto 1.5rem; filter: invert(70%) sepia(80%) saturate(400%) hue-rotate(5deg);">
+                    <h3>Sonho da Vida</h3>
+                    <p>Documentando a jornada de expansão do ecossistema Emc³. Inscreva-se para conteúdos exclusivos sobre a Lei da Assunção e Estratégia.</p>
+                    <a href="https://youtube.com/@jonpadilha" target="_blank" class="btn primary">YouTube Oficial</a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section style="border: none;">
-            <h2 class="section-title">Sonho da Vida</h2>
-            <div class="card" style="background: transparent;">
-                <div class="card-content" style="justify-content: center; align-items: center; text-align: center;">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" style="width: 60px; filter: invert(70%) sepia(80%) saturate(400%) hue-rotate(5deg) brightness(90%) contrast(90%); margin-bottom: 1rem;">
-                    <h3>YouTube Oficial</h3>
-                    <p>Acompanhe a documentação audiovisual da expansão do nosso ecossistema e as reflexões sobre a nossa jornada.</p>
-                    <a href="https://youtube.com/@jonpadilha" target="_blank" class="btn primary">Inscrever-se</a>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <section class="global-cta">
+    <section class="footer-cta">
         <div class="container">
-            <h2>Conecte-se com a Essência</h2>
-            <div class="cta-buttons">
-                <a href="https://wa.me/c/5521964440418" target="_blank" class="btn primary">Catálogo no WhatsApp</a>
-                <a href="https://www.tiktok.com/@jonpadilha369" target="_blank" class="btn">Seguir @jonpadilha369</a>
+            <h2>Conecte-se ao Próximo Nível</h2>
+            <div class="cta-group">
+                <a href="https://wa.me/5521964440418" target="_blank" class="btn primary">Falar no WhatsApp</a>
+            </div>
+            
+            <div class="tiktok-footer">
+                <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@jonpadilha369" data-unique-id="jonpadilha369" data-embed-type="creator" style="max-width: 100%; min-width: 288px;">
+                    <section> <a target="_blank" href="https://www.tiktok.com/@jonpadilha369">@jonpadilha369</a> </section>
+                </blockquote>
+                <script async src="https://www.tiktok.com/embed.js"></script>
             </div>
         </div>
     </section>
 
     <footer>
-        <div class="container">
-            <p>2026 © Ecossistema Emc³ - Jon Padilha. A Presença é o único lugar real.</p>
-        </div>
+        <p>2026 © Ecossistema Emc³ - Jon Padilha. "A Presença é o único lugar real."</p>
     </footer>
 
 </body>
