@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mural · Jon Padilha · Emc³</title>
+<meta name="description" content="Compartilhe sonhos, dúvidas e experiências. Jon Padilha responde no mural.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --bg:      #ede9e2;
+  --white:   #f9f7f4;
+  --ink:     #0e0e0e;
+  --ink2:    #1e1e1e;
+  --ink3:    #2e2e2e;
+  --muted:   #666666;
+  --divider: #ccc8c0;
+  --gold:    #b8853d;
+  --gold-lt: #d4a55e;
+  --gold-dk: #8a6025;
+  --green:   #157a3e;
+  --green-bg:#e8f5ee;
+  --green-bd:rgba(21,122,62,0.25);
+  --r: 20px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Jost', sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.025'/%3E%3C/svg%3E");
+}
+
+.page { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 0 22px 100px; }
+
+/* ── BACK NAV ── */
+.topnav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(237,233,226,0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--divider);
+  padding: 12px 22px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 0 -22px;
+}
+.back-btn {
+  display: flex; align-items: center; gap: 7px;
+  font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--ink3);
+  text-decoration: none; transition: color 0.2s;
+}
+.back-btn:hover { color: var(--gold-dk); }
+.topnav-brand {
+  font-family: 'Cormorant', serif; font-size: 16px; font-weight: 500;
+  color: var(--muted); letter-spacing: 0.05em;
+}
+
+/* ── HERO ── */
+.mural-hero {
+  margin: 0 -22px;
+  position: relative; height: 260px; overflow: hidden;
+}
+.mural-hero-img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  filter: brightness(0.55);
+}
+.mural-hero::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 160px;
+  background: linear-gradient(to top, var(--bg) 0%, transparent 100%);
+}
+.mural-hero-text {
+  position: absolute; bottom: 24px; left: 22px; right: 22px; z-index: 1;
+}
+.mural-hero-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--gold-lt); margin-bottom: 8px; display: block;
+}
+.mural-hero-title {
+  font-family: 'Cormorant', serif; font-size: 36px; font-weight: 500;
+  color: #fff; line-height: 1.05; letter-spacing: 0.01em;
+}
+.mural-hero-sub {
+  font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 6px; line-height: 1.6;
+}
+
+/* ── SECTION MARKER ── */
+.marker { display: flex; align-items: center; gap: 14px; margin: 36px 0 18px; }
+.marker-line { flex: 1; height: 1px; background: var(--divider); }
+.marker-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink3); white-space: nowrap; font-weight: 400; }
+
+/* ── CHOICE CARDS ── */
+.choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+
+.choice-card {
+  background: var(--white); border: 1px solid var(--divider);
+  border-radius: 16px; padding: 22px 16px 20px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  cursor: pointer; transition: all 0.3s cubic-bezier(0.23,1,0.32,1);
+  position: relative; overflow: hidden;
+}
+.choice-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; opacity: 0; transition: opacity 0.3s; }
+.choice-card.publica::before { background: linear-gradient(90deg, var(--gold-dk), var(--gold-lt)); }
+.choice-card.privada::before { background: linear-gradient(90deg, #157a3e, #22c55e); }
+.choice-card:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(0,0,0,0.1); }
+.choice-card.publica:hover { border-color: rgba(184,133,61,0.4); }
+.choice-card.privada:hover { border-color: rgba(21,122,62,0.4); }
+.choice-card:hover::before { opacity: 1; }
+.choice-icon { font-size: 28px; margin-bottom: 10px; }
+.choice-label { font-family: 'DM Mono', monospace; font-size: 8.5px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 5px; }
+.choice-card.publica .choice-label { color: var(--gold-dk); }
+.choice-card.privada .choice-label { color: var(--green); }
+.choice-title { font-family: 'Cormorant', serif; font-size: 17px; font-weight: 600; color: var(--ink); line-height: 1.2; margin-bottom: 6px; }
+.choice-desc { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+
+/* ── MODAL OVERLAY ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(14,14,14,0.7); backdrop-filter: blur(4px);
+  align-items: flex-end; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-sheet {
+  background: var(--white); width: 100%; max-width: 480px;
+  border-radius: 24px 24px 0 0;
+  padding: 28px 24px 48px;
+  animation: slideUp 0.35s cubic-bezier(0.23,1,0.32,1);
+  max-height: 92vh; overflow-y: auto;
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.modal-handle { width: 38px; height: 4px; border-radius: 2px; background: var(--divider); margin: 0 auto 22px; }
+.modal-title { font-family: 'Cormorant', serif; font-size: 26px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+.modal-desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 22px; }
+
+.form-group { margin-bottom: 16px; }
+.form-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-dk); display: block; margin-bottom: 8px; }
+.form-input, .form-textarea {
+  width: 100%; background: var(--bg); border: 1px solid var(--divider);
+  border-radius: 12px; padding: 12px 14px;
+  font-family: 'Jost', sans-serif; font-size: 14px; color: var(--ink);
+  outline: none; transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+.form-input:focus, .form-textarea:focus { border-color: var(--gold); }
+.form-textarea { min-height: 110px; resize: vertical; line-height: 1.7; }
+.form-input::placeholder, .form-textarea::placeholder { color: var(--muted); opacity: 0.7; }
+
+.char-count { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted); text-align: right; margin-top: 4px; }
+
+.form-note {
+  display: flex; align-items: flex-start; gap: 8px;
+  background: rgba(184,133,61,0.06); border: 1px solid rgba(184,133,61,0.2);
+  border-radius: 10px; padding: 10px 12px; margin-bottom: 20px;
+}
+.form-note-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.form-note-text { font-size: 12px; color: var(--ink3); line-height: 1.6; }
+
+.submit-btn {
+  width: 100%; padding: 15px; border-radius: 13px; border: none; cursor: pointer;
+  font-family: 'Jost', sans-serif; font-size: 15px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all 0.25s;
+}
+.submit-btn.publica { background: var(--ink); color: #fff; }
+.submit-btn.publica:hover { background: var(--ink2); transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,0,0,0.2); }
+.submit-btn.privada { background: var(--green-bg); border: 1px solid var(--green-bd); color: var(--green); }
+.submit-btn.privada:hover { background: #d5eddf; transform: translateY(-1px); }
+.cancel-btn {
+  width: 100%; margin-top: 10px; padding: 12px;
+  background: none; border: none; cursor: pointer;
+  font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted);
+  transition: color 0.2s;
+}
+.cancel-btn:hover { color: var(--ink); }
+
+/* ── MURAL WALL ── */
+.mural-wall { display: flex; flex-direction: column; gap: 14px; }
+
+.mural-post {
+  background: var(--white); border: 1px solid var(--divider);
+  border-radius: 18px; overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  transition: box-shadow 0.2s;
+}
+.mural-post:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+.mural-post.answered { border-color: rgba(184,133,61,0.35); }
+.mural-post.pending  { border-style: dashed; opacity: 0.8; }
+
+.post-header {
+  padding: 16px 18px 12px;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.post-avatar {
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+  background: var(--bg); border: 1px solid var(--divider);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 600; font-family: 'Cormorant', serif; color: var(--gold-dk);
+}
+.post-meta { flex: 1; min-width: 0; }
+.post-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+.post-time { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; color: var(--muted); margin-top: 2px; }
+.post-badge {
+  font-family: 'DM Mono', monospace; font-size: 8.5px; letter-spacing: 0.15em;
+  padding: 3px 8px; border-radius: 4px; text-transform: uppercase; flex-shrink: 0;
+}
+.post-badge.answered { background: rgba(184,133,61,0.1); color: var(--gold-dk); border: 1px solid rgba(184,133,61,0.25); }
+.post-badge.pending  { background: rgba(100,100,100,0.08); color: var(--muted); border: 1px solid var(--divider); }
+
+.post-question {
+  padding: 0 18px 14px;
+  font-family: 'Cormorant', serif; font-size: 17px; font-weight: 400;
+  color: var(--ink); line-height: 1.6; font-style: italic;
+}
+
+.post-response {
+  border-top: 1px solid rgba(184,133,61,0.2);
+  background: rgba(184,133,61,0.04);
+  padding: 14px 18px;
+}
+.response-author {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+}
+.response-avatar {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--ink2); overflow: hidden; flex-shrink: 0;
+}
+.response-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.response-name { font-size: 12px; font-weight: 600; color: var(--ink); }
+.response-label { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-dk); }
+.response-text {
+  font-size: 14px; color: var(--ink3); line-height: 1.75; font-weight: 400;
+}
+
+/* ── DEPOIMENTOS ── */
+.testimonials { display: flex; flex-direction: column; gap: 12px; }
+
+.testimonial {
+  background: var(--white); border: 1px solid var(--divider);
+  border-radius: 16px; padding: 20px 18px;
+  position: relative; overflow: hidden;
+}
+.testimonial::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.t-quote { font-family: 'Cormorant', serif; font-size: 38px; font-weight: 600; color: var(--gold-lt); line-height: 0.6; margin-bottom: 10px; display: block; }
+.t-text { font-family: 'Cormorant', serif; font-size: 17px; font-style: italic; color: var(--ink); line-height: 1.7; margin-bottom: 14px; }
+.t-author { display: flex; align-items: center; gap: 10px; }
+.t-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--bg); border: 1px solid var(--divider); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.t-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+.t-loc { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; color: var(--muted); margin-top: 1px; }
+.t-stars { color: var(--gold); font-size: 11px; letter-spacing: 2px; margin-top: 3px; }
+
+/* ── WPP CTA ── */
+.wpp-cta-block {
+  background: var(--ink2); border-radius: var(--r); padding: 36px 28px;
+  text-align: center; margin-top: 0;
+  position: relative; overflow: hidden;
+}
+.wpp-cta-block::before {
+  content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 60px; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.wpp-cta-eyebrow { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-lt); margin-bottom: 12px; display: block; }
+.wpp-cta-title { font-family: 'Cormorant', serif; font-size: 30px; font-weight: 500; color: #fff; line-height: 1.1; margin-bottom: 8px; }
+.wpp-cta-title em { font-style: italic; color: var(--gold-lt); }
+.wpp-cta-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 24px; }
+.wpp-big-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white; text-decoration: none; border-radius: 14px;
+  padding: 16px 24px; font-size: 15px; font-weight: 600;
+  margin-bottom: 12px; transition: all 0.3s;
+}
+.wpp-big-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(34,197,94,0.4); }
+.wpp-big-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+.wpp-note { font-size: 12px; color: rgba(255,255,255,0.35); letter-spacing: 0.05em; }
+
+/* ── FOOTER ── */
+.page-footer { margin-top: 50px; text-align: center; }
+.footer-name { font-family: 'Cormorant', serif; font-size: 16px; font-weight: 500; color: var(--muted); margin-bottom: 4px; }
+.footer-sub { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--divider); letter-spacing: 0.1em; }
+
+/* ── SUCCESS ── */
+.success-overlay {
+  display: none; position: fixed; inset: 0; z-index: 300;
+  background: rgba(14,14,14,0.85); backdrop-filter: blur(6px);
+  align-items: center; justify-content: center; padding: 24px;
+}
+.success-overlay.open { display: flex; }
+.success-card {
+  background: var(--white); border-radius: 24px; padding: 40px 32px;
+  text-align: center; max-width: 360px; width: 100%;
+  animation: popIn 0.4s cubic-bezier(0.23,1,0.32,1);
+}
+@keyframes popIn { from { opacity:0; transform:scale(0.88); } to { opacity:1; transform:scale(1); } }
+.success-icon { font-size: 52px; margin-bottom: 16px; display: block; }
+.success-title { font-family: 'Cormorant', serif; font-size: 28px; font-weight: 500; color: var(--ink); margin-bottom: 8px; }
+.success-desc { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
+.success-close {
+  width: 100%; padding: 14px; border-radius: 12px; border: none; cursor: pointer;
+  background: var(--ink); color: #fff; font-family: 'Jost', sans-serif;
+  font-size: 14px; font-weight: 600; transition: all 0.25s;
+}
+.success-close:hover { background: var(--ink2); }
+
+/* ── ANIMATIONS ── */
+.up { opacity: 0; transform: translateY(20px); animation: fadeUp 0.7s ease forwards; }
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+.u1{animation-delay:.05s}.u2{animation-delay:.15s}.u3{animation-delay:.25s}
+.u4{animation-delay:.35s}.u5{animation-delay:.45s}
+
+::selection { background: rgba(184,133,61,0.2); }
+a { -webkit-tap-highlight-color: transparent; }
+</style>
+</head>
+<body>
+
+<!-- TOPNAV -->
+<nav class="topnav">
+  <a href="index.html" class="back-btn">← Voltar</a>
+  <span class="topnav-brand">Emc³ · Mural</span>
+</nav>
+
+<div class="page">
+
+<!-- HERO -->
+<div class="mural-hero up u1">
+  <img class="mural-hero-img"
+    src="https://i.ibb.co/8gzH6tJF/file-0000000083d0720ea472d2ee69e88b4a.png"
+    alt="Mural Emc³"
+    onerror="this.parentElement.style.background='linear-gradient(135deg,#1a1205 0%,#2e1f06 50%,#0e0a04 100%)'; this.style.display='none'">
+  <div class="mural-hero-text">
+    <span class="mural-hero-eyebrow">🌙 &nbsp;Emc³ · Mural Aberto</span>
+    <h1 class="mural-hero-title">Sonhos,<br>Dúvidas &<br>Respostas</h1>
+    <p class="mural-hero-sub">Jon Padilha responde. Compartilhe aqui.</p>
+  </div>
+</div>
+
+<!-- SECTION: COMO PARTICIPAR -->
+<div class="up u2">
+  <div class="marker"><div class="marker-line"></div><span class="marker-label">Como participar</span><div class="marker-line"></div></div>
+
+  <div class="choice-grid">
+    <div class="choice-card publica" onclick="openModal('publica')">
+      <div class="choice-icon">💬</div>
+      <div class="choice-label">Público · Mural</div>
+      <div class="choice-title">Postar uma dúvida</div>
+      <div class="choice-desc">Sua pergunta fica no mural aguardando resposta de Jon</div>
+    </div>
+    <div class="choice-card privada" onclick="openModal('privada')">
+      <div class="choice-icon">🌙</div>
+      <div class="choice-label">Privado · WhatsApp</div>
+      <div class="choice-title">Enviar sonho ou experiência</div>
+      <div class="choice-desc">Vai direto pro WhatsApp de Jon — particular e pessoal</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION: MURAL -->
+<div class="up u3">
+  <div class="marker"><div class="marker-line"></div><span class="marker-label">Mural · Perguntas & Respostas</span><div class="marker-line"></div></div>
+
+  <div class="mural-wall" id="mural-wall">
+
+    <!-- POSTS PRE-SEEDED -->
+    <div class="mural-post answered">
+      <div class="post-header">
+        <div class="post-avatar">M</div>
+        <div class="post-meta">
+          <div class="post-name">Mariana S.</div>
+          <div class="post-time">Há 2 dias · São Paulo, SP</div>
+        </div>
+        <span class="post-badge answered">Respondido ✓</span>
+      </div>
+      <div class="post-question">"Sonhei que estava flutuando sobre uma cidade de luz, e quando desci, encontrei um livro com meu nome. O que significa essa descida?"</div>
+      <div class="post-response">
+        <div class="response-author">
+          <div class="response-avatar"><img src="https://ugc.production.linktr.ee/390d797c-1164-4464-bc8d-6585fe4ea409_157.jpeg" alt="Jon" onerror="this.parentElement.style.background='#b8853d'"></div>
+          <div>
+            <div class="response-name">Jon Padilha</div>
+            <div class="response-label">Emc³ · Resposta</div>
+          </div>
+        </div>
+        <div class="response-text">A descida no sonho não é queda — é encarnação consciente. O livro com seu nome é o registro akáshico da sua alma: você foi lembrada de que já tem uma missão escrita. A cidade de luz é a memória do que você é antes do corpo. Pergunte-se: o que está adiando?</div>
+      </div>
+    </div>
+
+    <div class="mural-post answered">
+      <div class="post-header">
+        <div class="post-avatar">R</div>
+        <div class="post-meta">
+          <div class="post-name">Rafael T.</div>
+          <div class="post-time">Há 4 dias · Rio de Janeiro, RJ</div>
+        </div>
+        <span class="post-badge answered">Respondido ✓</span>
+      </div>
+      <div class="post-question">"Como saber se estou no caminho certo quando tudo ao redor parece caótico? Fico com a sensação de que perdi o fio."</div>
+      <div class="post-response">
+        <div class="response-author">
+          <div class="response-avatar"><img src="https://ugc.production.linktr.ee/390d797c-1164-4464-bc8d-6585fe4ea409_157.jpeg" alt="Jon" onerror="this.parentElement.style.background='#b8853d'"></div>
+          <div>
+            <div class="response-name">Jon Padilha</div>
+            <div class="response-label">Emc³ · Resposta</div>
+          </div>
+        </div>
+        <div class="response-text">O caos externo é a superfície — não é o real. O fio nunca se rompe: você é o fio. Quando a mente 3D tenta cartografar o que só o coração navega, ela se perde. Pare de tentar entender o caminho. Sinta se há paz no passo presente. Esse é o único indicador que importa.</div>
+      </div>
+    </div>
+
+    <div class="mural-post answered">
+      <div class="post-header">
+        <div class="post-avatar">C</div>
+        <div class="post-meta">
+          <div class="post-name">Carla M.</div>
+          <div class="post-time">Há 1 semana · Belo Horizonte, MG</div>
+        </div>
+        <span class="post-badge answered">Respondido ✓</span>
+      </div>
+      <div class="post-question">"O que é a mente 3D que Jon fala nas músicas da Aurora? Eu me identifiquei mas não entendi completamente."</div>
+      <div class="post-response">
+        <div class="response-author">
+          <div class="response-avatar"><img src="https://ugc.production.linktr.ee/390d797c-1164-4464-bc8d-6585fe4ea409_157.jpeg" alt="Jon" onerror="this.parentElement.style.background='#b8853d'"></div>
+          <div>
+            <div class="response-name">Jon Padilha</div>
+            <div class="response-label">Emc³ · Resposta</div>
+          </div>
+        </div>
+        <div class="response-text">A mente 3D é o sistema operacional do ego — ela só acredita no que vê, mede e controla. Julga, compara, tem medo da morte, precisa de provas. Ela não é inimiga; é uma ferramenta útil no plano físico. O problema é quando ela assume o controle do que é espiritual. Consciência 5D é observar a mente sem ser ela.</div>
+      </div>
+    </div>
+
+    <div class="mural-post answered">
+      <div class="post-header">
+        <div class="post-avatar">L</div>
+        <div class="post-meta">
+          <div class="post-name">Lucas P.</div>
+          <div class="post-time">Há 1 semana · Brasília, DF</div>
+        </div>
+        <span class="post-badge answered">Respondido ✓</span>
+      </div>
+      <div class="post-question">"Tenho tido experiências de paralisia durante o sono acompanhadas de presença forte no quarto. Devo me preocupar ou é algo espiritual?"</div>
+      <div class="post-response">
+        <div class="response-author">
+          <div class="response-avatar"><img src="https://ugc.production.linktr.ee/390d797c-1164-4464-bc8d-6585fe4ea409_157.jpeg" alt="Jon" onerror="this.parentElement.style.background='#b8853d'"></div>
+          <div>
+            <div class="response-name">Jon Padilha</div>
+            <div class="response-label">Emc³ · Resposta</div>
+          </div>
+        </div>
+        <div class="response-text">A paralisia do sono é a porta entre os estados. O medo amplifica a experiência — e onde há medo, o plano astral reflete isso. A presença que você sente pode ser tanto sua própria consciência desorientada quanto uma entidade. A chave: na próxima vez, em vez de resistir, diga internamente "eu sou luz" e observe. O que tem amor não foge da luz.</div>
+      </div>
+    </div>
+
+  </div><!-- /mural-wall -->
+
+  <!-- Dynamic pending posts from localStorage will be injected here -->
+  <div id="pending-wall" style="margin-top:0;"></div>
+</div>
+
+<!-- SECTION: DEPOIMENTOS -->
+<div class="up u4">
+  <div class="marker"><div class="marker-line"></div><span class="marker-label">Depoimentos</span><div class="marker-line"></div></div>
+
+  <div class="testimonials">
+
+    <div class="testimonial">
+      <span class="t-quote">"</span>
+      <p class="t-text">As respostas do Jon mudaram completamente a forma como eu interpreto meus sonhos. Comecei a enxergar padrões que antes me assustavam como mensagens da minha própria alma.</p>
+      <div class="t-author">
+        <div class="t-avatar">🌸</div>
+        <div>
+          <div class="t-name">Ana Luiza F.</div>
+          <div class="t-loc">Salvador, BA</div>
+          <div class="t-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial">
+      <span class="t-quote">"</span>
+      <p class="t-text">Comprei o ebook "Corrigindo a Mente 3D" depois de ver uma resposta do Jon no mural. Em três semanas a minha relação com a ansiedade mudou. É conhecimento que a gente sente, não só lê.</p>
+      <div class="t-author">
+        <div class="t-avatar">⚡</div>
+        <div>
+          <div class="t-name">Paulo R.</div>
+          <div class="t-loc">Curitiba, PR</div>
+          <div class="t-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial">
+      <span class="t-quote">"</span>
+      <p class="t-text">Mandei um relato de sonho recorrente que me assombrava há anos pelo WhatsApp. A interpretação do Jon foi cirúrgica — tocou num ponto da minha infância que eu mal me lembrava. Chorei muito, mas foi libertador.</p>
+      <div class="t-author">
+        <div class="t-avatar">🌙</div>
+        <div>
+          <div class="t-name">Fernanda O.</div>
+          <div class="t-loc">Florianópolis, SC</div>
+          <div class="t-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial">
+      <span class="t-quote">"</span>
+      <p class="t-text">O mural da Emc³ é diferente de qualquer coisa que eu já vi. Jon não dá respostas genéricas — ele fala com você, para você. Cada resposta parece escrita especialmente.</p>
+      <div class="t-author">
+        <div class="t-avatar">✨</div>
+        <div>
+          <div class="t-name">Diego M.</div>
+          <div class="t-loc">Porto Alegre, RS</div>
+          <div class="t-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SECTION: WPP CTA -->
+<div class="up u5">
+  <div class="marker"><div class="marker-line"></div><span class="marker-label">Contato direto</span><div class="marker-line"></div></div>
+
+  <div class="wpp-cta-block">
+    <span class="wpp-cta-eyebrow">Atendimento · Jon Padilha</span>
+    <h2 class="wpp-cta-title">Fale direto<br>com <em>Jon</em></h2>
+    <p class="wpp-cta-desc">Sonhos, experiências, dúvidas profundas, atendimentos individuais — Jon responde pessoalmente.</p>
+    <a class="wpp-big-btn" href="https://wa.me/5521964440418" target="_blank">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Falar com Jon no WhatsApp
+    </a>
+    <p class="wpp-note">(21) 9 6444-0418</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="page-footer">
+  <p class="footer-name">Jon Padilha · Emc³</p>
+  <p class="footer-sub">Consciência · Mercado · Tecnologia</p>
+</footer>
+
+</div><!-- /page -->
+
+<!-- ══════════════ MODAL: DÚVIDA PÚBLICA ══════════════ -->
+<div class="modal-overlay" id="modal-publica" onclick="closeModalOutside(event, 'publica')">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <h2 class="modal-title">💬 Postar no Mural</h2>
+    <p class="modal-desc">Sua pergunta ficará visível no mural e Jon poderá respondê-la publicamente. Você também receberá aviso pelo WhatsApp quando houver resposta.</p>
+
+    <div class="form-note">
+      <span class="form-note-icon">💡</span>
+      <span class="form-note-text">Perguntas sobre sonhos, espiritualidade, consciência, física quântica, mercado — tudo é bem-vindo.</span>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="pub-nome">Seu nome (ou apelido)</label>
+      <input class="form-input" id="pub-nome" type="text" placeholder="Ex: Mariana S." maxlength="40">
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="pub-cidade">Cidade (opcional)</label>
+      <input class="form-input" id="pub-cidade" type="text" placeholder="Ex: São Paulo, SP" maxlength="40">
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="pub-pergunta">Sua dúvida ou pergunta</label>
+      <textarea class="form-textarea" id="pub-pergunta" placeholder="Escreva sua pergunta aqui..." maxlength="400" oninput="updateCount('pub-pergunta','pub-count')"></textarea>
+      <div class="char-count"><span id="pub-count">0</span>/400</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="pub-wpp">Seu WhatsApp (para receber resposta)</label>
+      <input class="form-input" id="pub-wpp" type="tel" placeholder="(21) 9 9999-9999">
+    </div>
+
+    <button class="submit-btn publica" onclick="submitPublica()">
+      📌 Publicar no Mural
+    </button>
+    <button class="cancel-btn" onclick="closeModal('publica')">Cancelar</button>
+  </div>
+</div>
+
+<!-- ══════════════ MODAL: MENSAGEM PRIVADA ══════════════ -->
+<div class="modal-overlay" id="modal-privada" onclick="closeModalOutside(event, 'privada')">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <h2 class="modal-title">🌙 Enviar para Jon</h2>
+    <p class="modal-desc">Relatos de sonhos, experiências espirituais, visões ou mensagens que você quer compartilhar de forma privada. Jon recebe direto no WhatsApp.</p>
+
+    <div class="form-note">
+      <span class="form-note-icon">🔒</span>
+      <span class="form-note-text">Isso vai diretamente para o WhatsApp de Jon. Não fica público no mural.</span>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="priv-tipo">O que você vai compartilhar?</label>
+      <select class="form-input" id="priv-tipo">
+        <option value="sonho">🌙 Um sonho</option>
+        <option value="experiencia">✨ Uma experiência espiritual</option>
+        <option value="visao">👁️ Uma visão ou presença</option>
+        <option value="outro">💭 Outro relato</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="priv-nome">Seu nome (opcional)</label>
+      <input class="form-input" id="priv-nome" type="text" placeholder="Como quer ser chamado?" maxlength="40">
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="priv-relato">Seu relato</label>
+      <textarea class="form-textarea" id="priv-relato" placeholder="Descreva com detalhes — cores, sensações, pessoas presentes, o que sentiu..." maxlength="800" oninput="updateCount('priv-relato','priv-count')" style="min-height:140px;"></textarea>
+      <div class="char-count"><span id="priv-count">0</span>/800</div>
+    </div>
+
+    <button class="submit-btn privada" onclick="submitPrivada()">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Enviar para Jon no WhatsApp
+    </button>
+    <button class="cancel-btn" onclick="closeModal('privada')">Cancelar</button>
+  </div>
+</div>
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-card">
+    <span class="success-icon" id="success-icon">📌</span>
+    <div class="success-title" id="success-title">Publicado no Mural!</div>
+    <p class="success-desc" id="success-desc">Sua pergunta foi adicionada ao mural. Jon receberá sua dúvida e responderá em breve.</p>
+    <button class="success-close" onclick="closeSuccess()">Entendi ✓</button>
+  </div>
+</div>
+
+<script>
+const WPP = '5521964440418';
+
+// ── MODAL CONTROLS ──
+function openModal(tipo) {
+  document.getElementById('modal-' + tipo).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(tipo) {
+  document.getElementById('modal-' + tipo).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e, tipo) {
+  if (e.target === e.currentTarget) closeModal(tipo);
+}
+function updateCount(fieldId, countId) {
+  const el = document.getElementById(fieldId);
+  document.getElementById(countId).textContent = el.value.length;
+}
+
+// ── SUBMIT: PÚBLICA ──
+function submitPublica() {
+  const nome    = document.getElementById('pub-nome').value.trim();
+  const cidade  = document.getElementById('pub-cidade').value.trim();
+  const pergunta= document.getElementById('pub-pergunta').value.trim();
+  const wpp     = document.getElementById('pub-wpp').value.trim();
+
+  if (!nome || !pergunta) {
+    alert('Por favor, preencha seu nome e sua pergunta.'); return;
+  }
+  if (pergunta.length < 10) {
+    alert('Escreva um pouco mais na sua pergunta.'); return;
+  }
+
+  // Save to localStorage
+  const post = {
+    id: Date.now(),
+    nome: nome,
+    cidade: cidade || '',
+    pergunta: pergunta,
+    wpp: wpp,
+    data: new Date().toLocaleDateString('pt-BR', {day:'2-digit',month:'2-digit',year:'numeric'}),
+    status: 'pending'
+  };
+  const posts = JSON.parse(localStorage.getItem('emc3_mural') || '[]');
+  posts.unshift(post);
+  localStorage.setItem('emc3_mural', JSON.stringify(posts));
+  renderPendingPosts();
+
+  // Send to Jon via WhatsApp
+  const msg = encodeURIComponent(
+    `🌟 *NOVA DÚVIDA NO MURAL — Emc³*\n\n` +
+    `👤 *Nome:* ${nome}${cidade ? ' · ' + cidade : ''}\n` +
+    `📱 *WhatsApp:* ${wpp || 'Não informado'}\n\n` +
+    `💬 *Pergunta:*\n"${pergunta}"\n\n` +
+    `_Enviado pelo Mural Emc³_`
+  );
+  window.open(`https://wa.me/${WPP}?text=${msg}`, '_blank');
+
+  closeModal('publica');
+  showSuccess('📌', 'Publicado no Mural!', 'Sua pergunta foi adicionada. Jon receberá no WhatsApp e responderá em breve aqui no mural.');
+}
+
+// ── SUBMIT: PRIVADA ──
+function submitPrivada() {
+  const tipo   = document.getElementById('priv-tipo');
+  const tipoLabel = tipo.options[tipo.selectedIndex].text;
+  const nome   = document.getElementById('priv-nome').value.trim();
+  const relato = document.getElementById('priv-relato').value.trim();
+
+  if (!relato || relato.length < 20) {
+    alert('Por favor, escreva um pouco mais no seu relato.'); return;
+  }
+
+  const msg = encodeURIComponent(
+    `🌙 *RELATO PRIVADO — Emc³ Mural*\n\n` +
+    `📂 *Tipo:* ${tipoLabel}\n` +
+    `👤 *Nome:* ${nome || 'Anônimo'}\n\n` +
+    `✍️ *Relato:*\n"${relato}"\n\n` +
+    `_Enviado pelo Mural Emc³_`
+  );
+  window.open(`https://wa.me/${WPP}?text=${msg}`, '_blank');
+
+  closeModal('privada');
+  showSuccess('🌙', 'Enviado para Jon!', 'Seu relato foi enviado diretamente para o WhatsApp de Jon. Ele responde pessoalmente.');
+}
+
+// ── SUCCESS ──
+function showSuccess(icon, title, desc) {
+  document.getElementById('success-icon').textContent = icon;
+  document.getElementById('success-title').textContent = title;
+  document.getElementById('success-desc').textContent = desc;
+  document.getElementById('success-overlay').classList.add('open');
+}
+function closeSuccess() {
+  document.getElementById('success-overlay').classList.remove('open');
+}
+
+// ── RENDER PENDING POSTS ──
+function timeAgo(ts) {
+  const diff = Date.now() - ts;
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'Agora mesmo';
+  if (mins < 60) return `Há ${mins} min`;
+  const h = Math.floor(mins/60);
+  if (h < 24) return `Há ${h}h`;
+  return `Há ${Math.floor(h/24)} dia${Math.floor(h/24)>1?'s':''}`;
+}
+
+function renderPendingPosts() {
+  const posts = JSON.parse(localStorage.getItem('emc3_mural') || '[]');
+  const container = document.getElementById('pending-wall');
+  if (!posts.length) { container.innerHTML = ''; return; }
+
+  container.innerHTML = posts.map(p => {
+    const initials = p.nome ? p.nome.charAt(0).toUpperCase() : '?';
+    return `
+    <div class="mural-post pending" style="margin-top:14px;">
+      <div class="post-header">
+        <div class="post-avatar">${initials}</div>
+        <div class="post-meta">
+          <div class="post-name">${escHtml(p.nome)}${p.cidade ? ` · <span style="font-weight:400;color:var(--muted)">${escHtml(p.cidade)}</span>` : ''}</div>
+          <div class="post-time">${timeAgo(p.id)}</div>
+        </div>
+        <span class="post-badge pending">Aguardando ⏳</span>
+      </div>
+      <div class="post-question">"${escHtml(p.pergunta)}"</div>
+    </div>`;
+  }).join('');
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Init
+renderPendingPosts();
+</script>
+</body>
+</html>
