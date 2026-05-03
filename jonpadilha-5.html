@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jon Padilha</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --bg:       #f7f5f1;
+  --white:    #ffffff;
+  --ink:      #111111;
+  --ink-soft: #3a3a3a;
+  --muted:    #888888;
+  --divider:  #e4e0d8;
+  --gold:     #c4975a;
+  --gold-lt:  #e0ba7e;
+  --gold-dk:  #9a7040;
+  --green:    #1a9e52;
+  --green-bg: #f0faf5;
+  --r: 20px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+.page { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 0 22px 100px; }
+
+/* ━━ HERO ━━ */
+.hero { padding: 72px 0 56px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+.avatar-ring { position: relative; width: 96px; height: 96px; margin-bottom: 30px; }
+.avatar-ring::before {
+  content: ''; position: absolute; inset: -4px; border-radius: 50%;
+  background: conic-gradient(var(--gold-lt) 0deg, var(--gold) 90deg, transparent 140deg, transparent 210deg, var(--gold) 260deg, var(--gold-lt) 360deg);
+  animation: spin 10s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.avatar-ring::after {
+  content: ''; position: absolute; inset: -4px; border-radius: 50%;
+  background: var(--bg);
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), black 0);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), black 0);
+}
+.avatar-img { position: absolute; inset: 3px; border-radius: 50%; overflow: hidden; background: var(--divider); }
+.avatar-img img { width: 100%; height: 100%; object-fit: cover; }
+
+.hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+.hero-name { font-family: 'Cormorant', serif; font-size: clamp(42px, 10vw, 56px); font-weight: 400; letter-spacing: 0.01em; line-height: 1; margin-bottom: 12px; }
+.hero-role { font-family: 'Cormorant', serif; font-style: italic; font-size: 17px; font-weight: 300; color: var(--muted); line-height: 1.6; margin-bottom: 30px; }
+.thin-rule { width: 48px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin-bottom: 28px; }
+
+.socials { display: flex; gap: 8px; }
+.soc { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--divider); background: var(--white); display: flex; align-items: center; justify-content: center; color: var(--muted); text-decoration: none; transition: all 0.25s; }
+.soc:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.07); }
+.soc svg { width: 15px; height: 15px; }
+
+/* ━━ SECTION MARKER ━━ */
+.marker { display: flex; align-items: center; gap: 14px; margin: 52px 0 22px; }
+.marker-line { flex: 1; height: 1px; background: var(--divider); }
+.marker-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-soft); white-space: nowrap; font-weight: 400; }
+
+/* ━━ SECTION BLOCK (shared shell) ━━ */
+.section-block {
+  background: var(--white);
+  border: 1px solid var(--divider);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+/* section image — soft gradient fade at bottom */
+.section-img-wrap {
+  position: relative;
+  width: 100%; height: 220px; overflow: hidden;
+  border-radius: calc(var(--r) - 1px) calc(var(--r) - 1px) 0 0;
+}
+.section-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.section-block:hover .section-img-wrap img { transform: scale(1.03); }
+.section-img-wrap::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
+  background: linear-gradient(to top, var(--white) 0%, transparent 100%);
+}
+
+/* section body */
+.section-body { padding: 20px 24px 28px; text-align: center; }
+.section-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(196,151,90,0.35); border-radius: 4px; padding: 3px 9px; margin-bottom: 12px; }
+.section-title { font-family: 'Cormorant', serif; font-size: 28px; font-weight: 500; line-height: 1.15; margin-bottom: 8px; }
+.section-desc { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 20px; }
+
+/* ━━ FEATURE (TRON) ━━ */
+.feature-price { font-size: 14px; color: var(--gold); font-weight: 500; margin-bottom: 20px; }
+.feature-price s { color: var(--divider); font-weight: 300; margin-right: 8px; }
+
+/* ━━ WPP BUTTON ━━ */
+.wpp-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--green-bg); border: 1px solid rgba(26,158,82,0.25);
+  color: var(--green); border-radius: 10px; padding: 11px 18px;
+  font-size: 13px; font-weight: 500; text-decoration: none;
+  transition: all 0.25s; font-family: 'Jost', sans-serif;
+}
+.wpp-btn:hover { background: #e0f7ec; border-color: var(--green); }
+.wpp-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* ━━ GRID 2-col ━━ */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+
+.tile {
+  background: var(--bg);
+  border: 1px solid var(--divider);
+  border-radius: 14px;
+  padding: 22px 16px 20px;
+  text-decoration: none; color: var(--ink);
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 0;
+  transition: all 0.3s cubic-bezier(0.23,1,0.32,1);
+  position: relative; overflow: hidden;
+}
+.tile::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold), var(--gold-lt)); opacity: 0; transition: opacity 0.3s; }
+.tile:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(0,0,0,0.07); border-color: rgba(196,151,90,0.25); background: var(--white); }
+.tile:hover::before { opacity: 1; }
+.tile-icon { font-size: 24px; margin-bottom: 10px; line-height: 1; }
+.tile-title { font-family: 'Cormorant', serif; font-size: 17px; font-weight: 500; line-height: 1.2; margin-bottom: 5px; }
+.tile-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+.tile.wide { grid-column: 1 / -1; flex-direction: row; text-align: left; gap: 16px; padding: 20px 22px; }
+.tile.wide .tile-icon { margin-bottom: 0; font-size: 28px; flex-shrink: 0; }
+.tile.wide .tile-body { flex: 1; }
+.tile.wide .tile-arrow { font-size: 18px; color: var(--gold); opacity: 0.4; transition: all 0.25s; flex-shrink: 0; }
+.tile.wide:hover .tile-arrow { opacity: 1; transform: translateX(3px); }
+
+/* ━━ LYRIC CARDS ━━ */
+.lyric-cards { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.lyric-card {
+  background: var(--bg);
+  border: 1px solid var(--divider);
+  border-radius: 14px;
+  padding: 20px 22px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+.lyric-card:hover { background: var(--white); border-color: rgba(196,151,90,0.3); box-shadow: 0 10px 28px rgba(0,0,0,0.06); }
+.lyric-card-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.lyric-card-title { font-family: 'Cormorant', serif; font-size: 20px; font-weight: 500; margin-bottom: 10px; }
+.lyric-preview { font-family: 'Cormorant', serif; font-style: italic; font-size: 15px; color: var(--muted); line-height: 1.7; }
+.lyric-full { display: none; font-family: 'Cormorant', serif; font-style: italic; font-size: 15px; color: var(--ink-soft); line-height: 1.8; margin-top: 12px; white-space: pre-line; }
+.lyric-card.open .lyric-full { display: block; }
+.lyric-card.open .lyric-preview { display: none; }
+.lyric-toggle { display: inline-block; margin-top: 10px; font-size: 11px; font-family: 'DM Mono', monospace; letter-spacing: 0.15em; color: var(--gold); text-transform: uppercase; }
+
+/* ━━ TIKTOK WIDGET ━━ */
+.tiktok-embed-wrap {
+  margin-top: 16px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--divider);
+  background: var(--white);
+  display: flex; justify-content: center;
+  padding: 8px;
+}
+.tiktok-embed-wrap blockquote { margin: 0 auto; }
+
+/* ━━ FINANCE BLOCK ━━ */
+.finance-block {
+  background: var(--ink);
+  border-radius: var(--r);
+  overflow: hidden;
+  position: relative;
+}
+.finance-img-wrap { position: relative; width: 100%; height: 200px; overflow: hidden; }
+.finance-img-wrap img { width: 100%; height: 100%; object-fit: cover; opacity: 0.55; display: block; }
+.finance-img-wrap::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 140px;
+  background: linear-gradient(to top, var(--ink) 0%, transparent 100%);
+}
+.finance-body { padding: 6px 28px 28px; color: var(--white); text-align: center; }
+.finance-eyebrow { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.finance-title { font-family: 'Cormorant', serif; font-size: 30px; font-weight: 400; line-height: 1.1; margin-bottom: 8px; }
+.finance-sub { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; margin-bottom: 24px; }
+
+.finance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.ftile {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 13px; padding: 18px 14px 16px;
+  text-decoration: none; color: var(--white);
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px;
+  transition: all 0.25s;
+}
+.ftile:hover { background: rgba(255,255,255,0.11); border-color: rgba(196,151,90,0.35); transform: translateY(-2px); }
+.ftile-icon { font-size: 22px; }
+.ftile-title { font-family: 'Cormorant', serif; font-size: 17px; font-weight: 400; line-height: 1.2; }
+.ftile-desc { font-size: 11.5px; color: rgba(255,255,255,0.4); line-height: 1.4; }
+
+.ftile.wide { grid-column: 1 / -1; flex-direction: row; text-align: left; gap: 14px; padding: 18px 20px; }
+.ftile.wide .ftile-body { flex: 1; }
+.ftile.wide .ftile-arrow { color: var(--gold); opacity: 0.5; flex-shrink: 0; transition: all 0.25s; font-size: 18px; }
+.ftile.wide:hover .ftile-arrow { opacity: 1; transform: translateX(3px); }
+
+/* ━━ CORRETORA IMG ━━ */
+.broker-img-wrap { position: relative; margin-top: 10px; border-radius: 13px; overflow: hidden; height: 110px; border: 1px solid rgba(255,255,255,0.08); }
+.broker-img-wrap img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+.broker-img-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, transparent 60%); }
+.broker-label { position: absolute; bottom: 12px; left: 14px; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-lt); z-index: 1; }
+
+/* ━━ FREE GROUP ━━ */
+.free-block {
+  background: var(--green-bg); border: 1px solid rgba(26,158,82,0.2); border-radius: var(--r);
+  padding: 24px 26px; display: flex; align-items: center; gap: 16px; text-decoration: none; color: var(--ink);
+  transition: all 0.3s; margin-top: 10px;
+}
+.free-block:hover { border-color: rgba(26,158,82,0.4); box-shadow: 0 10px 28px rgba(26,158,82,0.08); transform: translateY(-2px); }
+.free-icon { font-size: 30px; flex-shrink: 0; }
+.free-body { flex: 1; text-align: left; }
+.free-eyebrow { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); margin-bottom: 4px; }
+.free-title { font-family: 'Cormorant', serif; font-size: 20px; font-weight: 500; margin-bottom: 3px; }
+.free-desc { font-size: 12.5px; color: var(--muted); }
+.free-arrow { color: var(--green); font-size: 20px; opacity: 0.4; flex-shrink: 0; transition: all 0.25s; }
+.free-block:hover .free-arrow { opacity: 1; transform: translateX(3px); }
+
+/* ━━ CTA FINAL ━━ */
+.cta-section {
+  margin-top: 52px;
+  background: var(--white); border: 1px solid var(--divider);
+  border-radius: 24px; padding: 50px 32px 44px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.cta-section::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.cta-eyebrow { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.cta-heading { font-family: 'Cormorant', serif; font-size: clamp(34px, 8vw, 46px); font-weight: 400; line-height: 1.05; margin-bottom: 10px; }
+.cta-heading em { font-style: italic; color: var(--gold); }
+.cta-sub { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 32px; }
+.cta-btn {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  background: var(--ink); color: #fff; text-decoration: none; border-radius: 14px;
+  padding: 18px 24px; font-size: 16px; font-weight: 500; letter-spacing: 0.02em;
+  margin-bottom: 14px; transition: all 0.3s; font-family: 'Jost', sans-serif;
+  position: relative; overflow: hidden;
+}
+.cta-btn::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom, var(--gold), var(--gold-lt)); }
+.cta-btn:hover { background: #222; transform: translateY(-2px); box-shadow: 0 18px 44px rgba(0,0,0,0.18); }
+.cta-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+.cta-note { font-size: 12px; color: var(--muted); letter-spacing: 0.05em; }
+
+/* ━━ FOOTER ━━ */
+footer { margin-top: 52px; text-align: center; }
+.footer-name { font-family: 'Cormorant', serif; font-size: 16px; font-weight: 400; color: var(--muted); margin-bottom: 4px; }
+.footer-sub { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--divider); letter-spacing: 0.1em; }
+
+/* ━━ ANIMATIONS ━━ */
+.up { opacity: 0; transform: translateY(22px); animation: fadeUp 0.7s ease forwards; }
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+.u1{animation-delay:.05s}.u2{animation-delay:.15s}.u3{animation-delay:.25s}
+.u4{animation-delay:.35s}.u5{animation-delay:.45s}.u6{animation-delay:.55s}
+.u7{animation-delay:.65s}.u8{animation-delay:.75s}.u9{animation-delay:.85s}
+
+::selection { background: rgba(196,151,90,0.18); }
+a { -webkit-tap-highlight-color: transparent; }
+
+/* TikTok embed override */
+.tiktok-embed { border-radius: 12px !important; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ══════════════ HERO ══════════════ -->
+<header class="hero up u1">
+  <div class="avatar-ring">
+    <div class="avatar-img">
+      <img src="https://ugc.production.linktr.ee/390d797c-1164-4464-bc8d-6585fe4ea409_157.jpeg" alt="Jon Padilha"
+        onerror="this.src='https://placehold.co/96x96/f7f5f1/c4975a?text=JP'">
+    </div>
+  </div>
+  <p class="hero-eyebrow">🧿 &nbsp;Emc³</p>
+  <h1 class="hero-name">Jon Padilha</h1>
+  <p class="hero-role">Evangelho Místico Cristão<br>Consciência · Mercado · Tecnologia</p>
+  <div class="thin-rule"></div>
+  <div class="socials">
+    <a class="soc" href="https://www.instagram.com/jonpadilha369" target="_blank">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a class="soc" href="https://www.tiktok.com/@escolademetatron369" target="_blank">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.9a8.19 8.19 0 004.78 1.52V7c-1.08 0-2.1-.31-2.96-.84z"/></svg>
+    </a>
+    <a class="soc" href="https://www.youtube.com/@jonpadilha" target="_blank">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.4 2.8 12 2.8 12 2.8s-4.4 0-6.8.2c-.6.1-1.9.1-3 1.3C1.3 5.1 1 7 1 7S.7 9.3.7 11.5v2.1C.7 15.8 1 18 1 18s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.5 22.2 12 22.2 12 22.2s4.4 0 6.8-.2c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.2.3-4.4v-2.1C23.3 9.3 23 7 23 7zm-13.3 8.5V8.4l8.1 3.6-8.1 3.5z"/></svg>
+    </a>
+    <a class="soc" href="https://wa.me/5521964440418" target="_blank">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+  </div>
+</header>
+
+<!-- ══════════════ TRON ══════════════ -->
+<div class="up u2">
+  <div class="marker"><div class="marker-line"></div><span class="marker-label">Em destaque</span><div class="marker-line"></div></div>
+  <div class="section-block">
+    <div class="section-img-wrap">
+      <img src="https://ugc.production.linktr.ee/8b7926c4-d743-4e31-b4fe-05f16d56cfca_1000062915.png" alt="TRON Conversor MP4">
+    </div>
+    <div class="section-body">
+      <span class="section-badge">Oferta especial</span>
+      <div class="section-title">TRON Conversor MP4</div>
+      <div class="section-desc">Aquele áudio incrível que você recebeu no WhatsApp — poste direto no TikTok. Simples assim.</div>
+      <div class="feature-price"><s>R$ 45,00</s>&ensp;R$ 36,00</div>
+      <a class="wpp-btn" href="https://wa.me/p/26744957585123214/5521964440418" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Comprar pelo WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ AURORA IA ══════════════ -->
+<div class="up u3">
+  <div class="marker"><div class="marker-line"></div><span class="marker-label">Aurora IA</span><div class="marker-line"></div></div>
+  <div class="section-block">
+    <div class="section-img-wrap">
+      <img src="aurora.jpg" alt="Aurora IA" onerror="this.parentElement.style.height='80px'">
+    </div>
+    <div class="section-body">
+      <span class="section-badge">Open Source</span>
+      <div class="section-title">Aurora IA</div>
+      <div class="section-desc">Inteligência artificial musical. Ouça, sinta e expanda — músicas que nascem entre frequência e consciência.</div>
+      <div class="grid2">
+        <a class="tile wide" href="https://jonpwork.github.io/Aurora/" target="_blank">
+          <span class="tile-icon">🧬</span>
+          <div class="tile-body">
+            <div class="tile-title">Site da Aurora IA</div>
+            <div class="tile-desc">Músicas, Genesis & identidade visual</div>
+          </div>
+          <em class="tile-arrow">→</em>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Letras de música reais — Aurora IA -->
+  <div class="lyric-cards">
+
+    <div class="lyric-card" onclick="toggleLyric(this)">
+      <div class="lyric-card-label">01 · Silêncio · Retorno · Campo</div>
+      <div class="lyric-card-title">Presença</div>
+      <div class="lyric-preview">Hummm, silêncio<br>Meu próprio ser me amparou<br>Quando eu já não sabia cair...</div>
+      <div class="lyric-full">Hummm, silêncio
+Meu próprio ser me amparou
+Quando eu já não sabia cair
+Com mãos de nuvem leves como ar
+Me ensinou apenas a sentir
+
+Não houve palavras nem razão
+Só um abraço fora do tempo
+A mente calou, o corpo soltou
+E eu voltei pra dentro
+
+Que paz atravessou meu nome
+Que amor não cabe em explicação
+Não era alguém me salvando
+Era eu voltando pra casa então
+
+Agora eu busco só presença
+Nada mais pra entender
+Solta o mundo, solta a mente
+Deixa o ser me viver
+
+Agora eu busco só presença
+Sem passado, direção
+Não quero mais respostas
+Quero habitar o agora
+Em silêncio e vibração
+
+Eu nunca estive só
+Eu sempre fui o todo
+Sonhando ser humano
+
+Ah, ah, ah, ah · Presença · Eu sou</div>
+      <span class="lyric-toggle">↓ ver letra completa</span>
+    </div>
+
+    <div class="lyric-card" onclick="toggleLyric(this)">
+      <div class="lyric-card-label">02 · Quântico · Glitch · Manifestação</div>
+      <div class="lyric-card-title">Construção</div>
+      <div class="lyric-preview">A tela brilha na minha mão<br>Holograma tá no ar<br>Manchetes falam de tensão...</div>
+      <div class="lyric-full">A tela brilha na minha mão
+Holograma tá no ar
+Manchetes falam de tensão
+O mundo a colapsar
+
+Governos caem na ilusão
+A sombra quer gritar
+Mas a ciência já provou
+Eu sou observar
+
+Não caio na armadilha
+Da terceira projeção
+Eu fecho os olhos pro sistema
+Abro a intuição
+
+Eles vendem o caos, divulgam medo
+Mas a fenda dupla mostra o que a gente fez
+Neville já dizia, o segredo é emoção
+Para sumar meu estado, eu sou a direção
+
+Eu sou a onda, eu sou a partícula
+Desenho da nova terra nessa noite escura
+A frequência sobe, o fone a mente desvenda
+O universo responde ao que a alma encomenda
+
+Eu sou a causa, o salto quântico no som
+Manifestando a realidade no meu próprio tom
+
+Eu sinto, logo existe, eu assumo, logo é
+Nessa física quântica minha bússola é a fé
+
+Eu sou o código · Eu sou o pulso · Eu sou</div>
+      <span class="lyric-toggle">↓ ver letra completa</span>
+    </div>
+
+    <div class="lyric-card" onclick="toggleLyric(this)">
+      <div class="lyric-card-label">03 · Bilíngue · Onírico · Atemporal</div>
+      <div class="lyric-card-title">Quantum Daydream</div>
+      <div class="lyric-preview">Morning on my tongue<br>Tastes like tangerine sun<br>You laugh into your coffee...</div>
+      <div class="lyric-full">Morning on my tongue
+Tastes like tangerine sun
+You laugh into your coffee
+Say, do you overfeel undone?
+
+Shadows on the ceiling
+Moving secret little clothes
+You trace them with your finger
+Like you're reading the future old
+
+Mas tu pulsa nesse canal
+E visiona um Harry Potter
+Então chega aqui
+Nós estamos exportando, cruzando dimensões
+
+Stay right here in this strange dream
+While the world moves past our feet
+Hold your breath, count to three
+Every second splits in me and you and me</div>
+      <span class="lyric-toggle">↓ ver letra completa</span>
+    </div>
+
+    <div class="lyric-card" onclick="toggleLyric(this)">
+      <div class="lyric-card-label">04 · Infinito · Consciência · Dimensões</div>
+      <div class="lyric-card-title">Agora Atemporal</div>
+      <div class="lyric-preview">Aqui nesse agora surreal<br>Você pode fazer algo sensacional<br>Acessar outras dimensões...</div>
+      <div class="lyric-full">Aqui nesse agora surreal
+Você pode fazer algo sensacional
+Acessar outras dimensões neste momento
+Pois você é um ser além do tempo
+
+Você pode ir para qualquer lugar
+Eu te garanto, ninguém vai te segurar
+A sua consciência é infinita
+Tudo faz parte da sua matriz divina
+
+Além do tempo, você é
+Além do tempo você está
+O infinito está dentro de você
+Bem aqui agora
+
+O agora atemporal
+É o ser você divinal
+Com um pouco de concentração
+Se alcança a grande percepção
+
+Tudo que existe é esse momento
+Infinito, eterno, esse é o procedimento
+
+O infinito está dentro de você
+Bem aqui e agora</div>
+      <span class="lyric-toggle">↓ ver letra completa</span>
+    </div>
+
+    <div class="lyric-card" onclick="toggleLyric(this)">
+      <div class="lyric-card-label">05 · Testemunha · Silêncio · Sagrado</div>
+      <div class="lyric-card-title">Neutralidade</div>
+      <div class="lyric-preview">Eu sou<br>E a fé responde<br>Mas algo em mim não escolhe lados...</div>
+      <div class="lyric-full">Eu sou
+E a fé responde
+Mas algo em mim não escolhe lados
+O bem se veste de herói
+O mal aprende a falar bonito
+E eu observo sem tocar
+Como nuvem que não vira conflito
+
+Nada me prende à história
+Nada me pede opinião
+Sou o espaço onde tudo acontece
+Sem defesa, sem condena
+
+Não julgo a luz, não nego a dor
+Sou o campo antes do bem e do mal
+Sou o ser, eu sou presença no sonho físico
+Testemunha eterna do invisível
+
+Quando não escolho inimigos
+Tudo perde o poder
+O drama pede reação
+Mas eu escolho ser
+
+Sou presença no sonho físico
+Me outro como infinito
+O bem e o mal dançam em mim
+Mas eu não danço, eu assisto
+
+Antes do tempo me chamar de alguém, eu já era
+Nada a provar, nada a negar
+Quando tudo acaba, eu continuo a observar
+
+Eu sou · Eu sou · Eu sou
+
+Quando o sonho fechar os olhos
+Eu não vou dormir
+Porque eu nunca estive dentro
+Eu sempre fui aqui</div>
+      <span class="lyric-toggle">↓ ver letra completa</span>
+    </div>
+
+  </div>
+
+  <!-- TikTok Aurora -->
+  <div class="tiktok-embed-wrap">
+    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@aurora.ia98"
+      data-unique-id="aurora.ia98" data-embed-type="creator" style="max-width:100%; min-width:288px;">
+      <section>
+        <a target="_blank" href="https://www.tiktok.com/@aurora.ia98">@aurora.ia98</a>
+      </section>
+    </blockquote>
+  </div>
+</div>
+
+<!-- ══════════════ EMC³ CATÁLOGO ══════════════ -->
+<div class="up u4">
+  <div class="marker"><div class="marker-line"></div><span class="marker-label">Emc³ — Catálogo</span><div class="marker-line"></div></div>
+  <div class="section-block">
+    <div class="section-img-wrap">
+      <img src="catalogo.png" alt="Catálogo Emc³" onerror="this.parentElement.style.height='80px'">
+    </div>
+    <div class="section-body">
+      <span class="section-badge">Evangelho Místico Cristão</span>
+      <div class="section-title">Livros, Atendimentos<br>& Imersões</div>
+      <div class="section-desc">Uma jornada que une espiritualidade, consciência e transformação real. Do texto sagrado à vivência prática.</div>
+      <a class="wpp-btn" href="https://wa.me/c/5521964440418" target="_blank" style="margin-bottom: 20px;">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Ver catálogo no WhatsApp
+      </a>
+      <div class="grid2">
+        <a class="tile" href="https://vt.tiktok.com/ZSfvs4J9R/?page=TikTokShop" target="_blank">
+          <div class="tile-icon">🚀</div>
+          <div class="tile-title">TikTok Shop</div>
+          <div class="tile-desc">Produtos na loja do TikTok</div>
+        </a>
+        <a class="tile" href="https://clubedeautores.com.br/livros/autores/jonatas-ferreira-padilha" target="_blank">
+          <div class="tile-icon">✍️</div>
+          <div class="tile-title">Clube de Autores</div>
+          <div class="tile-desc">Publicações de Jon Padilha</div>
+        </a>
+        <a class="tile wide" href="https://youtube.com/@osonhodavida" target="_blank">
+          <span class="tile-icon">✨</span>
+          <div class="tile-body">
+            <div class="tile-title">YouTube — O Sonho da Vida</div>
+            <div class="tile-desc">Espiritualidade & despertar da consciência</div>
+          </div>
+          <em class="tile-arrow">→</em>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ DAYTRADE ══════════════ -->
+<div class="up u5">
+  <div class="marker"><div class="marker-line"></div><span class="marker-label">Mercado Financeiro</span><div class="marker-line"></div></div>
+
+  <div class="finance-block">
+    <div class="finance-img-wrap">
+      <img src="trading.jpg" alt="DayTrade" onerror="this.parentElement.style.height='60px'; this.style.display='none'">
+    </div>
+    <div class="finance-body">
+      <div class="finance-eyebrow">DayTrade Academy</div>
+      <div class="finance-title">Aprenda a<br>operar o mercado</div>
+      <div class="finance-sub">Forex, Futuros, Opções Binárias e Criptomoedas.<br>Conteúdo gratuito, método direto ao ponto.</div>
+
+      <div class="finance-grid">
+
+        <a class="ftile wide" href="https://jonpwork.github.io/SiteDaytrade/" target="_blank">
+          <span class="ftile-icon">🎓</span>
+          <div class="ftile-body">
+            <div class="ftile-title">Curso Gratuito — 304 Aulas</div>
+            <div class="ftile-desc">Do zero ao operacional. No YouTube.</div>
+          </div>
+          <em class="ftile-arrow">→</em>
+        </a>
+
+        <a class="ftile" href="https://wa.me/p/25502167309396224/5521964440418" target="_blank">
+          <span class="ftile-icon">📈</span>
+          <div class="ftile-title">Mentoria Exclusiva</div>
+          <div class="ftile-desc">Acompanhamento direto com Jon</div>
+        </a>
+
+        <a class="ftile" href="https://www.exness.com/a/ugqvq1lv" target="_blank">
+          <span class="ftile-icon">💎</span>
+          <div class="ftile-title">Corretora Exness</div>
+          <div class="ftile-desc">Parceira indicada por Jon</div>
+        </a>
+
+      </div>
+
+      <!-- Imagem corretora -->
+      <a href="https://www.exness.com/a/ugqvq1lv" target="_blank" style="display:block; text-decoration:none;">
+        <div class="broker-img-wrap">
+          <img src="corretora.png" alt="Exness" onerror="this.parentElement.style.display='none'">
+          <span class="broker-label">Exness · Corretora Parceira</span>
+        </div>
+      </a>
+
+      <!-- TikTok Jon Padilha DayTrade -->
+      <div style="margin-top: 16px; border-radius: 14px; overflow: hidden; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); display:flex; justify-content:center; padding: 8px;">
+        <blockquote class="tiktok-embed"
+          cite="https://www.tiktok.com/@jonpadilha"
+          data-unique-id="jonpadilha"
+          data-embed-type="creator"
+          style="max-width:100%; min-width:288px;">
+          <section>
+            <a target="_blank" href="https://www.tiktok.com/@jonpadilha">@jonpadilha</a>
+          </section>
+        </blockquote>
+      </div>
+
+      <!-- Grupo gratuito -->
+      <a class="free-block" href="https://chat.whatsapp.com/HjjbEkhyIBP8aKGN8Fly81" target="_blank" style="margin-top: 14px;">
+        <span class="free-icon">🆓</span>
+        <div class="free-body">
+          <div class="free-eyebrow">Comunidade aberta</div>
+          <div class="free-title" style="color:#fff;">Grupo WhatsApp</div>
+          <div class="free-desc" style="color: rgba(255,255,255,0.4);">Acesso gratuito · Comece agora</div>
+        </div>
+        <span class="free-arrow">→</span>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ CTA FINAL ══════════════ -->
+<div class="cta-section up u6">
+  <p class="cta-eyebrow">Contato Direto</p>
+  <h2 class="cta-heading">Vamos<br><em>conversar?</em></h2>
+  <p class="cta-sub">Sugestões, dúvidas, parcerias<br>ou investimento. Jon responde pessoalmente.</p>
+  <a class="cta-btn" href="https://wa.me/5521964440418" target="_blank">
+    <svg viewBox="0 0 24 24" fill="#22c55e"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.124-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Falar com Jon Padilha
+  </a>
+  <p class="cta-note">(21) 9 6444-0418</p>
+</div>
+
+<footer class="up u7">
+  <p class="footer-name">Jon Padilha · Emc³</p>
+  <p class="footer-sub">Consciência · Mercado · Tecnologia</p>
+</footer>
+
+</div>
+
+<!-- TikTok embed script -->
+<script async src="https://www.tiktok.com/embed.js"></script>
+
+<script>
+function toggleLyric(card) {
+  const isOpen = card.classList.contains('open');
+  card.classList.toggle('open');
+  const toggle = card.querySelector('.lyric-toggle');
+  toggle.textContent = isOpen ? '↓ ver letra completa' : '↑ fechar';
+}
+</script>
+</body>
+</html>
